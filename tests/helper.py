@@ -27,7 +27,6 @@ def extract_from_spreadsheet(sheet_link):
     return df
 
 def convert_to_pdf(string):
-
     pdf = fpdf.FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=12)
