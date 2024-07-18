@@ -10,7 +10,7 @@ current_time = time.strftime("%H:%M")
 prompt = f'''You are a chatbot designed to classify the input text into multiple tasks.
 - If the text is to summarise the content of any file, your output should contain [FILE].
 - If the text is to sent an email, your output should be [EMAIL].
-- If the text is to sent an email at a particular time, your output should be [EMAIL][TIME-<actual time to send the email from prompt>]
+- If the text is to sent an email at a particular time, your output should be [EMAIL][TIME-<actual time to send the email from prompt>]. Sometimes the user may ask you to send the mail at any particular duration from now(like 3 minutes from now). Then you have to properly calculate the time at which the mail have to be sent.
 - If it is any other regular question, just answer the question.
 The current time is {current_time}.
 Human:'''
@@ -18,7 +18,7 @@ Human:'''
 llm = LLM()
 
 while True:
-    inp = input('You: ')
+    inp = input('\nYou: ')
     output = llm.generate(prompt + inp)
     print('Chatbot:', output, '\n')
     if re.search(r'\[FILE\]', output):
@@ -29,6 +29,7 @@ while True:
             information = custom_information_extraction(df)
             output = llm.generate( 'You are given the following details about the sales of a company. Write a very long sales report on the same. All the money shown are in indian rupees(use Rs). Answer in only english text format(not markdown).Do not add any charts. Make sure to arrange the report with proper headings.'+ str(information))
             convert_to_pdf(output)
+            print('PDF successfully created.')
         else: break
 
     if re.search(r'\[EMAIL\]', output):
