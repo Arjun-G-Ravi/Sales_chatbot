@@ -13,7 +13,7 @@ mail_password = 'the app password for senders mail available at https://myaccoun
 sender = 'sender mail id'
 receiver = 'reciever mail id'
 ```
-
 Now modify this file with your information.
 
-![Video](demo_sales_chatbot.mp4)
+# Demo
+This video is a demo on this project: ![Video](demo_sales_chatbot.mp4)
