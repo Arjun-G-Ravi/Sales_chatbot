@@ -2,6 +2,15 @@ from groq import Groq
 from config import groq_api_key
 import pandas as pd
 import fpdf
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+from config import mail_password, sender, receiver
 
 class LLM:
     def __init__(self, temperature = 0.2, top_p=0.3):
@@ -13,7 +22,7 @@ class LLM:
         '''Generates output using Google API, given the input.'''
         chat_completion = self.client.chat.completions.create(
             messages=[{"role": "user","content": f"{inp}"}],
-            model="llama3-70b-8192",
+            model="llama3-8b-8192",
             # Other models: llama3-8b-8192 llama3-70b-8192 gemma-7b-it mixtral-8x7b-32768
             temperature = self.temperature,
             top_p=self.top_p)
@@ -49,3 +58,35 @@ def custom_information_extraction(df):
     'valCounts_CITY' : df.CITY.value_counts().to_dict(),
     'valCounts_DEALSIZE' : df.DEALSIZE.value_counts().to_dict(),
     }
+
+def send_email(sender_email, receiver_email, subject, body, password, attachment_path):
+    global email_sent
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = subject
+
+    msg.attach(MIMEText(body, 'plain'))
+    attachment = open(attachment_path, 'rb')
+
+    part = MIMEBase('application', 'octet-stream')
+    part.set_payload(attachment.read())
+    encoders.encode_base64(part)
+    part.add_header('Content-Disposition', f'attachment; filename={attachment_path.split("/")[-1]}')
+
+    msg.attach(part)
+    attachment.close()
+    with smtplib.SMTP('smtp.gmail.com', 587) as server:
+        server.starttls()
+        server.login(sender_email, password)
+        server.sendmail(sender_email, receiver_email, msg.as_string())
+
+    print(f'Email sent successfully.')
+    email_sent = True
+    quit()
+
+# Function to schedule the email
+def schedule_email():
+    subject = 'Daily sales'
+    body = 'This mail contains an attachment that summarises the daily sales.'
+    send_email(sender, receiver, subject, body, mail_password, 'output/output.pdf')

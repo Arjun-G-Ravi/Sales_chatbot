@@ -1,4 +1,6 @@
 fpdf
 groq
 pandas
-numpy
+schedule
+email
+smtplib
