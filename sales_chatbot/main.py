@@ -18,7 +18,7 @@ Human:'''
 llm = LLM()
 
 while True:
-    inp = input('Human: ')
+    inp = input('You: ')
     output = llm.generate(prompt + inp)
     print('Chatbot:', output, '\n')
     if re.search(r'\[FILE\]', output):

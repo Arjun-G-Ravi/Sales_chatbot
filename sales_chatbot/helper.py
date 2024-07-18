@@ -1,5 +1,5 @@
 from groq import Groq
-from config import groq_api_key
+from config import groq_api_key, mail_password, sender, receiver
 import pandas as pd
 import fpdf
 import smtplib
@@ -10,7 +10,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
-from config import mail_password, sender, receiver
 
 class LLM:
     def __init__(self, temperature = 0.2, top_p=0.3):
