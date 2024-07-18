@@ -1,0 +1,4 @@
+fpdf
+groq
+pandas
+numpy

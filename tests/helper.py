@@ -1,6 +1,7 @@
 from groq import Groq
 from config import groq_api_key
 import pandas as pd
+import fpdf
 
 class LLM:
     def __init__(self, temperature = 0.2, top_p=0.3):
@@ -20,4 +21,15 @@ class LLM:
         return chat_completion.choices[0].message.content
 
 def extract_from_spreadsheet(sheet_link):
-    f = pd.read_csv(sheet_link)
+    df = pd.read_csv(sheet_link)
+    # print(df.describe())
+    # print(df.info())
+    return df
+
+def convert_to_pdf(string):
+
+    pdf = fpdf.FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.multi_cell(0, 5, txt=string)
+    pdf.output("output.pdf", "F")

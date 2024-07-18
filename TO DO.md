@@ -1,4 +1,6 @@
 - Manage API key safely
 - make a UI (?)
 - what if the spread sheet is in .xlsx or other format or link
+- email things
+- get info on the spreadsheet, and give it as input to the prompt
 - 
