@@ -32,3 +32,22 @@ def convert_to_pdf(string):
     pdf.set_font("Arial", size=12)
     pdf.multi_cell(0, 5, txt=string)
     pdf.output("output.pdf", "F")
+
+
+def custom_information_extraction(df):
+    '''This function is built on the columns of given spreadsheet'''
+    return {
+    'sum_QUANTITYORDERED' : sum(df.QUANTITYORDERED),
+    'mean_QUANTITYORDERED' : df.QUANTITYORDERED.mean(),
+    'sum_PRICEEACH' : sum(df.PRICEEACH),
+    'mean_PRICEEACH'  : df.PRICEEACH.mean(),
+    'sum_SALES' :sum(df.SALES),
+    'mean_SALES'  :df.SALES.mean(),
+    'valCounts_STATUS' : df.STATUS.value_counts().to_dict(),
+    'sorted_valCounts_MONTHID' : df.MONTH_ID.value_counts().sort_index().to_dict(),
+    'sorted_valCounts_YEARID' : df.YEAR_ID.value_counts().sort_index().to_dict(),
+    'valCounts_PRODUCTLINE' : df.PRODUCTLINE.value_counts().to_dict(),
+    'valCounts_COUNTRY' : df.COUNTRY.value_counts().to_dict(),
+    'valCounts_CITY' : df.CITY.value_counts().to_dict(),
+    'valCounts_DEALSIZE' : df.DEALSIZE.value_counts().to_dict(),
+    }
