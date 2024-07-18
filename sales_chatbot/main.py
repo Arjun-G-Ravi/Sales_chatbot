@@ -12,7 +12,7 @@ Human:'''
 
 llm = LLM()
 
-# path = 'Sample Sales Data- Interns task - sales_data_sample.csv'
+path = 'Sample Sales Data- Interns task - sales_data_sample.csv'
 
 # spread_sheet_info = extract_from_spreadsheet(path)
 
@@ -20,7 +20,14 @@ llm = LLM()
 # convert_to_pdf(sales_summary)
 
 while True:
-    inp = input('H: ')
+    inp = input('Human: ')
     # print(prompt + inp)
     output = llm.generate(prompt + inp)
-    print(output, '\n')
+    print('Chatbot:', output, '\n')
+    if re.search(r'\[FILE\]', output):
+        print('file found')
+
+
+    if re.search(r'\[EMAIL\]', output):
+        print('email found')
+    
